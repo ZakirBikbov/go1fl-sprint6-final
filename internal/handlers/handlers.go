@@ -39,6 +39,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "error reading file content: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
+	input := string(data)
 
 	result, err := service.AutoConvert(string(data))
 	if err != nil {
@@ -54,5 +55,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Converted result:\n%s\n\nSaved to file: %s", result, newFileName)
+	fmt.Fprintf(w,
+		"Original text: %s\n\nConverted result:\n%s\n\nSaved to file: %s",
+		input, result, newFileName,
+	)
 }
